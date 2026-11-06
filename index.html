@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1a0710" />
+<title>For You ♥</title>
+<meta name="description" content="I swear, I will continue to love you until my last breath." />
+<meta property="og:title" content="For You ♥" />
+<meta property="og:description" content="I swear, I will continue to love you until my last breath." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --ink: #ffeef4;
+    --rose: #ff9ec4;
+    --rose-deep: #e8558f;
+    --gold: #f6d8b8;
+    --bg-1: #1a0710;
+    --bg-2: #2b0a1b;
+    --bg-3: #3a0f24;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background:
+      radial-gradient(120% 90% at 50% -10%, var(--bg-3) 0%, transparent 55%),
+      radial-gradient(90% 70% at 110% 20%, rgba(232, 85, 143, .16) 0%, transparent 60%),
+      radial-gradient(80% 60% at -10% 90%, rgba(246, 216, 184, .10) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 70%);
+    color: var(--ink);
+    font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* soft vignette so the words sit in light */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 45% at 50% 50%, transparent 0%, rgba(10, 2, 7, .55) 100%);
+    z-index: 2;
+  }
+
+  #hearts {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: block;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3.2vh, 30px);
+    padding: clamp(24px, 6vw, 64px) clamp(20px, 6vw, 48px);
+    text-align: center;
+  }
+
+  /* ---------- pulsing heart ---------- */
+  .heart {
+    width: clamp(46px, 11vw, 72px);
+    height: auto;
+    filter: drop-shadow(0 0 18px rgba(255, 110, 160, .55));
+    transform-origin: 50% 60%;
+    animation: pulse 2.4s ease-in-out infinite, beatFade 1.4s ease-out .2s both;
+    will-change: transform;
+  }
+  .heart path {
+    fill: url(#heartGrad);
+  }
+
+  @keyframes beatFade {
+    from { opacity: 0; transform: scale(.4); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    12%      { transform: scale(1.13); }
+    24%      { transform: scale(.99); }
+    36%      { transform: scale(1.07); }
+    52%      { transform: scale(1); }
+  }
+
+  .kicker {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(11px, 2.7vw, 14px);
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: rgba(255, 214, 230, .62);
+    padding-left: .42em;
+    opacity: 0;
+    animation: rise 1.2s cubic-bezier(.22,.8,.28,1) .5s forwards;
+  }
+
+  .msg {
+    margin: 0;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(6px, 1.6vh, 16px);
+    max-width: 22ch;
+  }
+
+  .line {
+    display: block;
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(18px);
+    animation: rise 1.5s cubic-bezier(.22,.8,.28,1) forwards;
+    will-change: opacity, transform, filter;
+  }
+
+  .swear {
+    font-family: "Great Vibes", "Cormorant Garamond", cursive;
+    font-size: clamp(46px, 13.5vw, 108px);
+    line-height: 1;
+    color: #fff4f8;
+    text-shadow:
+      0 0 18px rgba(255, 130, 175, .55),
+      0 0 60px rgba(232, 85, 143, .35);
+    animation-delay: 1s;
+  }
+
+  .promise {
+    font-size: clamp(25px, 7.4vw, 60px);
+    line-height: 1.22;
+    letter-spacing: .005em;
+    color: rgba(255, 240, 246, .94);
+    text-wrap: balance;
+    animation-delay: 1.9s;
+  }
+
+  .last {
+    font-style: italic;
+    font-size: clamp(24px, 7vw, 56px);
+    line-height: 1.25;
+    text-wrap: balance;
+    background: linear-gradient(100deg, var(--gold) 0%, #fff 22%, var(--rose) 44%, #fff 66%, var(--gold) 88%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: rise 1.5s cubic-bezier(.22,.8,.28,1) 2.8s forwards,
+               shimmer 7s linear 4.2s infinite;
+    filter: drop-shadow(0 0 22px rgba(255, 158, 196, .22));
+  }
+
+  @keyframes rise {
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 220% 50%; }
+    100% { background-position: -60% 50%; }
+  }
+
+  .sig {
+    margin: clamp(6px, 2vh, 18px) 0 0;
+    font-size: clamp(13px, 3.4vw, 17px);
+    letter-spacing: .18em;
+    text-transform: lowercase;
+    color: rgba(255, 214, 230, .5);
+    opacity: 0;
+    animation: rise 1.4s ease-out 4s forwards;
+  }
+
+  /* soft glowing rule under the signature */
+  .sig::before {
+    content: "";
+    display: block;
+    width: clamp(70px, 18vw, 120px);
+    height: 1px;
+    margin: 0 auto clamp(10px, 1.6vh, 16px);
+    background: linear-gradient(90deg, transparent, rgba(255, 158, 196, .55), transparent);
+  }
+
+  .love {
+    margin: clamp(22px, 4.5vh, 44px) 0 0;
+    font-size: clamp(18px, 4.9vw, 26px);
+    font-style: italic;
+    letter-spacing: .02em;
+    color: #ffe0ea;
+    opacity: 0;
+    animation: rise 1.5s ease-out 4.8s forwards;
+    text-shadow: 0 0 18px rgba(255, 120, 170, .45);
+  }
+
+  .love .emoji {
+    display: inline-block;
+    font-style: normal;
+    margin-left: .18em;
+    filter: drop-shadow(0 0 10px rgba(255, 140, 180, .55));
+    animation: floatEmoji 3s ease-in-out infinite;
+  }
+
+  @keyframes floatEmoji {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .line, .kicker, .sig, .love, .heart {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      animation-delay: 0ms !important;
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+    .last {
+      background-position: 50% 50%;
+      animation: none !important;
+      opacity: 1 !important;
+    }
+    .love .emoji { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="hearts" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd3e2" />
+      <stop offset="45%" stop-color="#ff8bb8" />
+      <stop offset="100%" stop-color="#e2467f" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<main class="stage">
+
+  <svg class="heart" viewBox="0 0 32 29" role="img" aria-label="heart">
+    <path d="M16 29S0 19.6 0 9.7C0 4.3 4.2 0 9.5 0 12.6 0 15 1.6 16 3.4 17 1.6 19.4 0 22.5 0 27.8 0 32 4.3 32 9.7 32 19.6 16 29 16 29Z"/>
+  </svg>
+
+  <p class="kicker">a promise</p>
+
+  <h1 class="msg">
+    <span class="line swear">I swear,</span>
+    <span class="line promise">I will continue to love&nbsp;you</span>
+    <span class="line last">until my last breath</span>
+  </h1>
+
+  <p class="sig">always &amp; forever</p>
+
+  <p class="love">Love you both of you <span class="emoji">😘🫶💖</span></p>
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  const canvas = document.getElementById("hearts");
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let W = 0, H = 0, dpr = 1;
+  const hearts = [];
+  const bursts = [];
+  let running = true;
+
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
+    canvas.width  = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function heartPath(c, x, y, s, rot) {
+    c.save();
+    c.translate(x, y);
+    c.rotate(rot);
+    c.scale(s, s);
+    c.beginPath();
+    c.moveTo(0, 0.9);
+    c.bezierCurveTo(-1.2, -0.1, -0.7, -1.0, 0, -0.45);
+    c.bezierCurveTo(0.7, -1.0, 1.2, -0.1, 0, 0.9);
+    c.closePath();
+    c.restore();
+  }
+
+  function makeHeart(spawnAnywhere) {
+    const s = 4 + Math.random() * 11;
+    return {
+      x: Math.random() * W,
+      y: spawnAnywhere ? Math.random() * H : H + 30 + Math.random() * 60,
+      size: s,
+      vy: 0.16 + Math.random() * 0.5,
+      sway: 0.4 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2,
+      drift: 0.003 + Math.random() * 0.006,
+      rot: (Math.random() - 0.5) * 0.9,
+      rotV: (Math.random() - 0.5) * 0.006,
+      alpha: 0.08 + Math.random() * 0.3,
+      hue: Math.random() < 0.22 ? "gold" : "rose"
+    };
+  }
+
+  function initHearts() {
+    hearts.length = 0;
+    const count = Math.round(Math.min(38, Math.max(16, W / 14)));
+    for (let i = 0; i < count; i++) hearts.push(makeHeart(true));
+  }
+
+  function drawHeart(h) {
+    const a = h.alpha * (0.55 + 0.45 * Math.sin(h.phase));
+    const color = h.hue === "gold"
+      ? "rgba(246, 216, 184,"
+      : "rgba(255, 140, 180,";
+    heartPath(ctx, h.x, h.y, h.size, h.rot);
+    ctx.fillStyle = color + a.toFixed(3) + ")";
+    ctx.shadowColor = color + (a * 1.4).toFixed(3) + ")";
+    ctx.shadowBlur = h.size * 1.8;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  function spawnBurst(x, y) {
+    for (let i = 0; i < 14; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const sp = 0.9 + Math.random() * 2.6;
+      bursts.push({
+        x, y,
+        vx: Math.cos(ang) * sp,
+        vy: Math.sin(ang) * sp - 0.9,
+        size: 3 + Math.random() * 6,
+        life: 1,
+        rot: (Math.random() - 0.5) * 1.2,
+        rotV: (Math.random() - 0.5) * 0.08
+      });
+    }
+  }
+
+  function frame() {
+    if (!running) return;
+
+    ctx.clearRect(0, 0, W, H);
+
+    for (const h of hearts) {
+      h.phase += h.drift;
+      h.y -= h.vy;
+      h.x += Math.sin(h.phase) * h.sway * 0.35;
+      h.rot += h.rotV;
+
+      if (h.y < -40) {
+        const fresh = makeHeart(false);
+        Object.assign(h, fresh);
+      }
+      drawHeart(h);
+    }
+
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const p = bursts[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.045;
+      p.vx *= 0.985;
+      p.vy *= 0.985;
+      p.rot += p.rotV;
+      p.life -= 0.016;
+
+      if (p.life <= 0) {
+        bursts.splice(i, 1);
+        continue;
+      }
+
+      heartPath(ctx, p.x, p.y, p.size, p.rot);
+      ctx.fillStyle = "rgba(255, 165, 200," + (p.life * 0.75).toFixed(3) + ")";
+      ctx.shadowColor = "rgba(255, 120, 170," + (p.life * 0.6).toFixed(3) + ")";
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  function redrawStatic() {
+    ctx.clearRect(0, 0, W, H);
+    for (const h of hearts) drawHeart(h);
+  }
+
+  function onResize() {
+    size();
+    if (reduce) {
+      initHearts();
+      redrawStatic();
+    }
+  }
+
+  window.addEventListener("resize", onResize);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      running = false;
+    } else if (!reduce) {
+      running = true;
+      requestAnimationFrame(frame);
+    }
+  });
+
+  // tapping the page releases a little burst of hearts
+  if (!reduce) {
+    window.addEventListener("pointerdown", (e) => {
+      spawnBurst(e.clientX, e.clientY);
+    }, { passive: true });
+  }
+
+  size();
+  if (reduce) {
+    initHearts();
+    redrawStatic();
+  } else {
+    initHearts();
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>
